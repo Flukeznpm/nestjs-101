@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductDTO } from 'src/dto/product.dto';
 import { ProductService } from './product.service';
 
@@ -6,7 +6,12 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private productService: ProductService) {}
   @Get()
-  getProductAll(): ProductDTO[] {
+  getProductAll(@Query('name') productName?: string): ProductDTO[] {
+    if (productName) {
+      return this.productService.findByCondition((product) =>
+        product.name.includes(productName),
+      );
+    }
     return this.productService.findAll();
   }
   @Get(':id')

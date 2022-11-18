@@ -15,4 +15,9 @@ export class ProductService {
   findById(id: number) {
     return this.products.find((p) => p.id === id);
   }
+
+  // method รับเป็น arrow function ชื่อ predicate(functionที่reture boolean)
+  findByCondition(predicate: (product: ProductDTO) => boolean) {
+    return this.products.filter((p) => predicate(p));
+  }
 }
